@@ -26,14 +26,19 @@ def task_1_bpsk_simulation():
     bits = rng.integers(0, 2, size=num_bits)
 
     # 2. BPSK mapping: 0 -> -1, 1 -> +1
+    # Maps bits to their signal voltages (+1 or -1).
     symbols = 2 * bits - 1
+    print(f"[BPSK]   Symbols: {symbols}\n")
 
+    # Signal-to-Noise Ratio (SNR) - Decibels
+    # At 0 dB: signal = noise → lots of bit errors
+    # At 12 dB: signal is ~16× stronger than noise -> very few errors
     snr_db_values = np.array([0, 2, 4, 6, 8, 10, 12])
     ber_values = []
 
     for snr_db in snr_db_values:
 
-        # Convert SNR dB → linear
+        # Convert SNR dB -> linear
         snr_linear = 10 ** (snr_db / 10)
 
         # Noise standard deviation for BPSK (Eb normalized to 1)
@@ -44,13 +49,16 @@ def task_1_bpsk_simulation():
         received = symbols + noise
 
         # 4. Demodulation
-        detected_bits = (received > 0).astype(np.uint8)
+        print(f"[BPSK]   Received: {received}")
+        # converts values to 0 or 1. Its a broadcasted step function against the np array
+        detected_bits = (received > 0).astype(np.uint8) 
+        print(f"[BPSK]   Detected Bits: {detected_bits}")
 
         # 5. BER
         ber = np.mean(detected_bits != bits)
         ber_values.append(ber)
 
-        print(f"SNR = {snr_db} dB -> BER = {ber:.6f}")
+        print(f"[BPSK]   SNR = {snr_db} dB -> BER = {ber:.6f}\n")
 
     # 6. Plot BER vs SNR
     plt.figure()
@@ -553,6 +561,7 @@ def main():
     os.makedirs(DOWNLOAD_PATH, exist_ok=True)
 
     # SIMULATIONS
+    print(f"[green]Starting simulations...[/green]")
     task_1_bpsk_simulation()
     task_2_comparison()
     task_3_hamming()
