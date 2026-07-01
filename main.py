@@ -382,7 +382,8 @@ def task_4_ofdm_simulation():
     ofdm_matrix = qpsk_symbols.reshape(num_ofdm_symbols, num_subcarriers)
 
     # ── 4. IFFT (frequency -> time domain) ──────────────────────
-    time_domain = np.fft.ifft(ofdm_matrix, axis=1)
+    # time_domain = np.fft.ifft(ofdm_matrix, axis=1)
+    time_domain = np.fft.ifft(ofdm_matrix, axis=1, norm='ortho')
 
     # ── 5. Add Cyclic Prefix ───────────────────────────────────
     cp = time_domain[:, -cp_length:]
@@ -492,7 +493,8 @@ def task_5_ofdm_receiver_ber():
     ofdm_matrix = qpsk_symbols.reshape(num_ofdm_symbols, num_subcarriers)
 
     # ── 4. IFFT ────────────────────────────────────────────────
-    time_domain = np.fft.ifft(ofdm_matrix, axis=1)
+    # time_domain = np.fft.ifft(ofdm_matrix, axis=1)
+    time_domain = np.fft.ifft(ofdm_matrix, axis=1, norm='ortho')
 
     # ── 5. Add cyclic prefix ───────────────────────────────────
     cp = time_domain[:, -cp_length:]
@@ -524,7 +526,8 @@ def task_5_ofdm_receiver_ber():
         rx_no_cp = rx_blocks[:, cp_length:]
 
         # FFT (time → frequency)
-        freq_domain = np.fft.fft(rx_no_cp, axis=1)
+        # freq_domain = np.fft.fft(rx_no_cp, axis=1)
+        freq_domain = np.fft.fft(rx_no_cp, axis=1, norm='ortho')
 
         received_symbols = freq_domain.reshape(-1)
 
