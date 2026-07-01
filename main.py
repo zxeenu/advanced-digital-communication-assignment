@@ -381,7 +381,7 @@ def task_4_ofdm_simulation():
 
     ofdm_matrix = qpsk_symbols.reshape(num_ofdm_symbols, num_subcarriers)
 
-    # ── 4. IFFT (frequency → time domain) ──────────────────────
+    # ── 4. IFFT (frequency -> time domain) ──────────────────────
     time_domain = np.fft.ifft(ofdm_matrix, axis=1)
 
     # ── 5. Add Cyclic Prefix ───────────────────────────────────
